@@ -32,12 +32,12 @@ flag3=0
 
 def getFaceDirection(shape, size):
     image_points = np.array([
-                                shape[33],    # Nose tip
-                                shape[8],     # Chin
-                                shape[45],    # Left eye left corner
-                                shape[36],    # Right eye right corne
-                                shape[54],    # Left Mouth corner
-                                shape[48]     # Right mouth corner
+                            (359, 391),     # Nose tip
+                            (399, 561),     # Chin
+                            (337, 297),     # Left eye left corner
+                            (513, 301),     # Right eye right corne
+                            (345, 465),     # Left Mouth corner
+                            (453, 469)      # Right mouth corner
                             ], dtype="double")
     
     # 3D model points.
@@ -138,7 +138,7 @@ while cap.isOpened():
         cv2.drawContours(frame, [mouthHull],-1, (255,255,255), 1)
         if mEAR>thresh2 :
             flag2+=1
-            print("YAWN",flag2)
+            #print("YAWN",flag2)
             cv2.putText(frame, "YAWNING!!!", (10, 30),
             cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0,0), 2)
             cv2.putText(frame, "YAWNING!!!", (10,325),
@@ -147,7 +147,7 @@ while cap.isOpened():
 
         if ear<thresh :
             flag+=1
-            print(flag)
+            #print(flag)
             if flag>=frame_check:
                 cv2.putText(frame, "DROWSINESS DETECTED!!!", (150, 30),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0,0), 2)
@@ -164,10 +164,12 @@ while cap.isOpened():
         #head position  
         for (x, y) in shape:
             cv2.circle(frame, (x, y), 1, (0, 255, 0), -1)
-         
-        if(getFaceDirection(shape, size)<0):
+        count=0 
+        if(flag>=frame_check and getFaceDirection(shape, size)<0):
+            count+=1
             cv2.putText(frame, "SIT STRAIGHT!!!", (10, 225),
             cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0,0), 2)
+           
 
 
     cv2.imshow('Frame',frame)
@@ -176,16 +178,6 @@ while cap.isOpened():
         break
 cap.release()
 cv2.destroyAllWindows()
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
 
 
 
